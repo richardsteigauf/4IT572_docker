@@ -61,3 +61,15 @@ jobs:
 
       - name: Run tests
         run: npm test --if-present
+
+  Trigger-CD:
+    needs: [Test]
+    runs-on: ubuntu-latest
+    if: success()
+    steps:
+      - name: Repository Dispatch
+        uses: peter-evans/repository-dispatch@v1
+        with:
+          token: ${{ secrets.PAT }} 
+          repository: richardsteigauf/4IT572_ansible
+          event-type: trigger-cd
